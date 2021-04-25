@@ -1,30 +1,66 @@
 // demo data
 var treeData = {
+  id: 1,
   name: 'My Tree',
   price: 777,
   children: [
-    { name: 'hello', price: 777 },
-    { name: 'wat', price: 777 },
     {
+      id: 2,
+      name: 'hello',
+      price: 777,
+    },
+    {
+      id: 3,
+      name: 'wat',
+      price: 777,
+    },
+    {
+      id: 4,
       name: 'child folder',
       price: 777,
       children: [
         {
+          id: 5,
           name: 'child folder',
           price: 777,
           children: [
-            { name: 'hello', price: 777 },
-            { name: 'wat', price: 777 },
+            {
+              id: 6,
+              name: 'hello',
+              price: 777,
+            },
+            {
+              id: 7,
+              name: 'wat',
+              price: 777,
+            },
           ],
         },
-        { name: 'hello', price: 777 },
-        { name: 'wat', price: 777 },
         {
+          id: 8,
+          name: 'hello',
+          price: 777,
+        },
+        {
+          id: 9,
+          name: 'wat',
+          price: 777,
+        },
+        {
+          id: 10,
           name: 'child folder',
           price: 777,
           children: [
-            { name: 'hello', price: 777 },
-            { name: 'wat', price: 777 },
+            {
+              id: 11,
+              name: 'hello',
+              price: 777,
+            },
+            {
+              id: 12,
+              name: 'wat',
+              price: 777,
+            },
           ],
         },
       ],
@@ -37,24 +73,26 @@ Vue.component('tree-item', {
   template: '#item-template',
   props: {
     item: Object,
+    names: Array,
   },
-  data: function() {
+  data: function () {
     return {
       isOpen: false,
+      result: [],
     };
   },
   computed: {
-    isFolder: function() {
+    isFolder: function () {
       return this.item.children && this.item.children.length;
     },
   },
   methods: {
-    toggle: function() {
+    toggle: function () {
       if (this.isFolder) {
         this.isOpen = !this.isOpen;
       }
     },
-    makeFolder: function() {
+    makeFolder: function () {
       if (!this.isFolder) {
         this.$emit('make-folder', this.item);
         this.isOpen = true;
@@ -68,13 +106,19 @@ var demo = new Vue({
   el: '#demo',
   data: {
     treeData: treeData,
+    names: [],
+  },
+  computed: {
+    ids: function () {
+      return this.names;
+    },
   },
   methods: {
-    makeFolder: function(item) {
+    makeFolder: function (item) {
       Vue.set(item, 'children', []);
       this.addItem(item);
     },
-    addItem: function(item) {
+    addItem: function (item) {
       item.children.push({
         name: 'new stuff',
       });
