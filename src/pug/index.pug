@@ -1,0 +1,23 @@
+doctype html
+html
+  head
+    title Tree View
+    script(src="https://unpkg.com/vue")
+    link(rel="stylesheet" type="text/css" href="/css/style.min.css")
+
+    //- item template
+    script(type="text/x-template" id="item-template")
+      include template.pug
+
+  body
+    p (You can double click on an item to turn it into a folder.)
+
+    //- the demo root element
+    ul#demo
+      tree-item(
+        class="item"
+        :item="treeData"
+        @make-folder="makeFolder"
+        @add-item="addItem")
+
+    script(src="js/script.js")
