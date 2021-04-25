@@ -8,7 +8,7 @@
     <script type="text/x-template" id="item-template">
       <li>
         <div class="form-check" :class="{bold: isFolder}" @click="toggle" @dblclick="makeFolder">
-          <input class="form-check-input" :id="item.id" type="checkbox" :value="item.id" v-model="names">
+          <input class="form-check-input" :id="item.id" type="checkbox" :value="item.isChecked" v-model="item.isChecked">
           <label class="form-check-label" :for="item.id">{{ item.name }}: {{ item.price }}</label><span v-if="isFolder">[{{ isOpen ? '-' : '+' }}]</span>
         </div>
         <ul v-show="isOpen" v-if="isFolder">

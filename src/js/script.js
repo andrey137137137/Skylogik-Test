@@ -3,36 +3,43 @@ var treeData = {
   id: 1,
   name: 'My Tree',
   price: 777,
+  isChecked: false,
   children: [
     {
       id: 2,
       name: 'hello',
       price: 777,
+      isChecked: false,
     },
     {
       id: 3,
       name: 'wat',
       price: 777,
+      isChecked: false,
     },
     {
       id: 4,
       name: 'child folder',
       price: 777,
+      isChecked: false,
       children: [
         {
           id: 5,
           name: 'child folder',
           price: 777,
+          isChecked: false,
           children: [
             {
               id: 6,
               name: 'hello',
               price: 777,
+              isChecked: false,
             },
             {
               id: 7,
               name: 'wat',
               price: 777,
+              isChecked: false,
             },
           ],
         },
@@ -40,26 +47,31 @@ var treeData = {
           id: 8,
           name: 'hello',
           price: 777,
+          isChecked: false,
         },
         {
           id: 9,
           name: 'wat',
           price: 777,
+          isChecked: false,
         },
         {
           id: 10,
           name: 'child folder',
           price: 777,
+          isChecked: false,
           children: [
             {
               id: 11,
               name: 'hello',
               price: 777,
+              isChecked: false,
             },
             {
               id: 12,
               name: 'wat',
               price: 777,
+              isChecked: false,
             },
           ],
         },
@@ -73,12 +85,10 @@ Vue.component('tree-item', {
   template: '#item-template',
   props: {
     item: Object,
-    names: Array,
   },
   data: function () {
     return {
       isOpen: false,
-      result: [],
     };
   },
   computed: {
@@ -106,12 +116,6 @@ var demo = new Vue({
   el: '#demo',
   data: {
     treeData: treeData,
-    names: [],
-  },
-  computed: {
-    ids: function () {
-      return this.names;
-    },
   },
   methods: {
     makeFolder: function (item) {
