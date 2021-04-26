@@ -17,6 +17,7 @@ form
 </template>
 
 <script>
+import axios from 'axios';
 import TreeItem from './components/TreeItem.vue';
 
 export default {
@@ -139,6 +140,18 @@ export default {
         }
       }
     },
+  },
+  created() {
+    axios
+      .get('http://skylogik.test/')
+      .then(function (response) {
+        // handle success
+        console.log(response);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      });
   },
 };
 </script>
