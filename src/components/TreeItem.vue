@@ -1,16 +1,14 @@
 <template lang="pug">
 li
-  .form-check(
-    :class='{ bold: isFolder }',
-    @click='toggle',
-    @dblclick='makeFolder'
-  )
+  .form-check(:class='{ bold: isFolder }', @click='toggle')
     input.form-check-input(
       :id='item.id',
       type='checkbox',
       :value='item.isChecked',
-      v-model='item.isChecked'
+      @change='$emit("check-item", item)'
     )
+    //- @dblclick='makeFolder'
+    //- v-model='item.isChecked'
     label.form-check-label(:for='item.id') {{ item.name }}: {{ item.price }}
     span(v-if='isFolder') [{{ isOpen ? "-" : "+" }}]
 
@@ -20,9 +18,9 @@ li
       :key='index',
       :item='child',
       @make-folder='$emit("make-folder", $event)',
-      @add-item='$emit("add-item", $event)'
+      @check-item='$emit("check-item", $event)'
     )
-    li.add(@click='$emit("add-item", item)') +
+    //- li.add(@click='$emit("add-item", item)') +
 </template>
 
 <script>

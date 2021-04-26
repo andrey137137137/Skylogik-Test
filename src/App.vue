@@ -2,15 +2,18 @@
 form
   .container
     .row
-      p (You can double click on an item to turn it into a folder.)
+      h2 Choose products.
 
       //- the demo root element
       ul
         TreeItem.item(
           :item='treeData',
           @make-folder='makeFolder',
-          @add-item='addItem'
+          @check-item='checkItem'
         )
+
+      h4 Total Price: {{ totalPrice }}
+      h4 Selected Products Ids: {{ selectedProducts }}
 </template>
 
 <script>
@@ -23,6 +26,8 @@ export default {
   },
   data() {
     return {
+      selectedProducts: [],
+      totalPrice: 0,
       treeData: {
         id: 1,
         name: 'My Tree',
@@ -110,10 +115,29 @@ export default {
       this.$set(item, 'children', []);
       this.addItem(item);
     },
-    addItem(item) {
-      item.children.push({
-        name: 'new stuff',
-      });
+    checkItem(item) {
+      // item.children.push({
+      //   name: 'new stuff',
+      // });
+
+      const { id, price, isChecked } = item;
+      const index = this.selectedProducts.indexOf(id);
+
+      item.isChecked = !isChecked;
+
+      if (item.isChecked) {
+        this.totalPrice += price;
+
+        if (index === -1) {
+          this.selectedProducts.push(id);
+        }
+      } else {
+        this.totalPrice -= price;
+
+        if (index >= 0) {
+          this.selectedProducts.splice(index, 1);
+        }
+      }
     },
   },
 };
