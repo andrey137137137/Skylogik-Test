@@ -7,8 +7,6 @@ li
       :value='item.isChecked',
       @change='$emit("check-item", item)'
     )
-    //- @dblclick='makeFolder'
-    //- v-model='item.isChecked'
     label.form-check-label(:for='item.id') {{ item.name }}: {{ item.price }}
     span(v-if='isFolder') [{{ isOpen ? "-" : "+" }}]
 
@@ -19,8 +17,6 @@ li
       :item='child',
       @check-item='$emit("check-item", $event)'
     )
-    //- @make-folder='$emit("make-folder", $event)',
-    //- li.add(@click='$emit("add-item", item)') +
 </template>
 
 <script>
@@ -45,12 +41,6 @@ export default {
         this.isOpen = !this.isOpen;
       }
     },
-    // makeFolder: function () {
-    //   if (!this.isFolder) {
-    //     this.$emit('make-folder', this.item);
-    //     this.isOpen = true;
-    //   }
-    // },
   },
 };
 </script>
