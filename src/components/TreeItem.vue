@@ -8,9 +8,9 @@ li
       @change='$emit("check-item", item)'
     )
     label.form-check-label(:for='item.id') {{ item.name }}: {{ item.price }}
-    span(v-if='isFolder') [{{ isOpen ? "-" : "+" }}]
+    span(v-if='isFolder') [{{ isOpened ? "-" : "+" }}]
 
-  ul(v-show='isOpen', v-if='isFolder')
+  ul(v-show='isOpened', v-if='isFolder')
     TreeItem.item(
       v-for='(child, index) in item.children',
       :key='index',
@@ -27,7 +27,7 @@ export default {
   },
   data: function () {
     return {
-      isOpen: false,
+      isOpened: false,
     };
   },
   computed: {
@@ -38,7 +38,7 @@ export default {
   methods: {
     toggle: function () {
       if (this.isFolder) {
-        this.isOpen = !this.isOpen;
+        this.isOpened = !this.isOpened;
       }
     },
   },

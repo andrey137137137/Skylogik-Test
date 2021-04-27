@@ -1,20 +1,25 @@
 <template lang="pug">
-form
-  .container
-    .row
-      h2 {{ areProducts ? "Choose" : "There are no" }} products
+.container
+  .row
+    h2 {{ title }}
 
-      div(v-if='areProducts')
-        ul
-          TreeItem.item(
-            v-for='product in products',
-            :key='product.id',
-            :item='product',
-            @check-item='checkItem'
-          )
+    form(v-if='areProducts', @submit.prevent='onSubmit')
+      ul
+        TreeItem.item(
+          v-for='product in products',
+          :key='product.id',
+          :item='product',
+          @check-item='checkItem'
+        )
 
-        h4 Total Price: {{ totalPrice }}
-        h4 Selected Products Ids: {{ selectedProducts }}
+      h4 Total Price: {{ totalPrice }}
+      h4 Selected Products Ids: {{ selectedProducts }}
+
+      input.btn.btn-primary(
+        :disabled='isSubmitDisabled',
+        type='submit',
+        value='Submit'
+      )
 </template>
 
 <script>
@@ -43,8 +48,25 @@ export default {
 
       return false;
     },
+    title() {
+      return (this.areProducts ? 'Choose' : 'There are no') + ' products';
+    },
+    isSubmitDisabled() {
+      return !this.totalPrice;
+    },
   },
   methods: {
+    onSubmit() {
+      // const $vm = this;
+      const { selectedProducts, totalPrice } = this;
+      // const request = axios.create({
+      //   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      // });
+      axios.post('/post.php', { selectedProducts, totalPrice }).then(res => {
+        console.log('POSTED');
+        console.log(res);
+      });
+    },
     checkItem(item) {
       const { id, price, isChecked } = item;
       const index = this.selectedProducts.indexOf(id);
@@ -68,15 +90,11 @@ export default {
   },
   created() {
     const $vm = this;
-    axios
-      .get('http://skylogik.test/api/')
-      .then(res => {
-        $vm.products = res.data;
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    axios.get('/').then(res => {
+      $vm.products = res.data;
+      console.log('GETTED');
+      console.log(res);
+    });
   },
 };
 </script>
