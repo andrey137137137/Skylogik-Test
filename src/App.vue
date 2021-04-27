@@ -2,18 +2,20 @@
 form
   .container
     .row
-      h2 Choose products.
+      h2 {{ areProducts ? "Choose" : "There are no" }} products
 
-      //- the demo root element
-      ul
-        TreeItem.item(
-          :item='treeData',
-          @make-folder='makeFolder',
-          @check-item='checkItem'
-        )
+      div(v-if='areProducts')
+        ul
+          TreeItem.item(
+            v-for='product in products',
+            :key='product.id',
+            :item='product',
+            @check-item='checkItem'
+          )
+          //- @make-folder='makeFolder',
 
-      h4 Total Price: {{ totalPrice }}
-      h4 Selected Products Ids: {{ selectedProducts }}
+        h4 Total Price: {{ totalPrice }}
+        h4 Selected Products Ids: {{ selectedProducts }}
 </template>
 
 <script>
@@ -29,93 +31,105 @@ export default {
     return {
       selectedProducts: [],
       totalPrice: 0,
-      treeData: {
-        id: 1,
-        name: 'My Tree',
-        price: 777,
-        isChecked: false,
-        children: [
-          {
-            id: 2,
-            name: 'hello',
-            price: 777,
-            isChecked: false,
-          },
-          {
-            id: 3,
-            name: 'wat',
-            price: 777,
-            isChecked: false,
-          },
-          {
-            id: 4,
-            name: 'child folder',
-            price: 777,
-            isChecked: false,
-            children: [
-              {
-                id: 5,
-                name: 'child folder',
-                price: 777,
-                isChecked: false,
-                children: [
-                  {
-                    id: 6,
-                    name: 'hello',
-                    price: 777,
-                    isChecked: false,
-                  },
-                  {
-                    id: 7,
-                    name: 'wat',
-                    price: 777,
-                    isChecked: false,
-                  },
-                ],
-              },
-              {
-                id: 8,
-                name: 'hello',
-                price: 777,
-                isChecked: false,
-              },
-              {
-                id: 9,
-                name: 'wat',
-                price: 777,
-                isChecked: false,
-              },
-              {
-                id: 10,
-                name: 'child folder',
-                price: 777,
-                isChecked: false,
-                children: [
-                  {
-                    id: 11,
-                    name: 'hello',
-                    price: 777,
-                    isChecked: false,
-                  },
-                  {
-                    id: 12,
-                    name: 'wat',
-                    price: 777,
-                    isChecked: false,
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
+      products: {},
+      // products: {
+      //   id: 1,
+      //   name: 'My Tree',
+      //   price: 777,
+      //   isChecked: false,
+      //   children: [
+      //     {
+      //       id: 2,
+      //       name: 'hello',
+      //       price: 777,
+      //       isChecked: false,
+      //     },
+      //     {
+      //       id: 3,
+      //       name: 'wat',
+      //       price: 777,
+      //       isChecked: false,
+      //     },
+      //     {
+      //       id: 4,
+      //       name: 'child folder',
+      //       price: 777,
+      //       isChecked: false,
+      //       children: [
+      //         {
+      //           id: 5,
+      //           name: 'child folder',
+      //           price: 777,
+      //           isChecked: false,
+      //           children: [
+      //             {
+      //               id: 6,
+      //               name: 'hello',
+      //               price: 777,
+      //               isChecked: false,
+      //             },
+      //             {
+      //               id: 7,
+      //               name: 'wat',
+      //               price: 777,
+      //               isChecked: false,
+      //             },
+      //           ],
+      //         },
+      //         {
+      //           id: 8,
+      //           name: 'hello',
+      //           price: 777,
+      //           isChecked: false,
+      //         },
+      //         {
+      //           id: 9,
+      //           name: 'wat',
+      //           price: 777,
+      //           isChecked: false,
+      //         },
+      //         {
+      //           id: 10,
+      //           name: 'child folder',
+      //           price: 777,
+      //           isChecked: false,
+      //           children: [
+      //             {
+      //               id: 11,
+      //               name: 'hello',
+      //               price: 777,
+      //               isChecked: false,
+      //             },
+      //             {
+      //               id: 12,
+      //               name: 'wat',
+      //               price: 777,
+      //               isChecked: false,
+      //             },
+      //           ],
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
     };
   },
-  methods: {
-    makeFolder(item) {
-      this.$set(item, 'children', []);
-      this.addItem(item);
+  computed: {
+    areProducts() {
+      for (const key in this.products) {
+        if (Object.hasOwnProperty.call(this.products, key)) {
+          return true;
+        }
+      }
+
+      return false;
     },
+  },
+  methods: {
+    // makeFolder(item) {
+    //   this.$set(item, 'children', []);
+    //   this.addItem(item);
+    // },
     checkItem(item) {
       // item.children.push({
       //   name: 'new stuff',
@@ -142,15 +156,15 @@ export default {
     },
   },
   created() {
+    const $vm = this;
     axios
-      .get('http://skylogik.test/')
-      .then(function (response) {
-        // handle success
-        console.log(response);
+      .get('http://skylogik.test/api/')
+      .then(res => {
+        $vm.products = res.data;
+        console.log(res);
       })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
+      .catch(err => {
+        console.log(err);
       });
   },
 };

@@ -17,9 +17,9 @@ li
       v-for='(child, index) in item.children',
       :key='index',
       :item='child',
-      @make-folder='$emit("make-folder", $event)',
       @check-item='$emit("check-item", $event)'
     )
+    //- @make-folder='$emit("make-folder", $event)',
     //- li.add(@click='$emit("add-item", item)') +
 </template>
 
@@ -45,12 +45,12 @@ export default {
         this.isOpen = !this.isOpen;
       }
     },
-    makeFolder: function () {
-      if (!this.isFolder) {
-        this.$emit('make-folder', this.item);
-        this.isOpen = true;
-      }
-    },
+    // makeFolder: function () {
+    //   if (!this.isFolder) {
+    //     this.$emit('make-folder', this.item);
+    //     this.isOpen = true;
+    //   }
+    // },
   },
 };
 </script>
