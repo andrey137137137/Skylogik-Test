@@ -99,15 +99,20 @@ class API
     header('Access-Control-Max-Age: 86400');
   }
 
-  public static function send()
+  private static function _sendBody($data)
   {
-    if (isset($_REQUEST['selectedProducts']) && isset($_REQUEST['totalPrice'])) {
-      $result = 'Products ' . $_REQUEST['selectedProducts'] . 'added to data base with total price: ' . $_REQUEST['totalPrice'];
-    } else {
+    echo json_encode($data);
+  }
+
+  public static function send($data = null)
+  {
+    if (is_null($data)) {
       $result = self::$_treeData;
+    } else {
+      $result = $data;
     }
 
     self::_sendHeaders();
-    echo json_encode($result);
+    self::_sendBody($result);
   }
 }

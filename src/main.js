@@ -8,14 +8,12 @@ axios.interceptors.request.use(
   config => {
     config.baseURL = 'http://skylogik.test/api/';
     config.timeout = 5000;
-    config.headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
-    // config.withCredentials = true;
+    // config.headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
 
     return config;
   },
   err => {
     console.log(err);
-    return Promise.reject();
   },
 );
 
