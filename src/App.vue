@@ -57,11 +57,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      // const $vm = this;
       const { selectedProducts, totalPrice } = this;
-      // const request = axios.create({
-      //   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      // });
       axios.post('/post.php', { selectedProducts, totalPrice }).then(res => {
         console.log('POSTED');
         console.log(res);
