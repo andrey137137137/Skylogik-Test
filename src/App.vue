@@ -20,6 +20,8 @@
         type='submit',
         value='Submit'
       )
+
+      h4(style='padding-top: 30px', v-show='formMessage') {{ formMessage }}
 </template>
 
 <script>
@@ -33,9 +35,10 @@ export default {
   },
   data() {
     return {
+      products: {},
       selectedProducts: [],
       totalPrice: 0,
-      products: {},
+      formMessage: '',
     };
   },
   computed: {
@@ -57,15 +60,17 @@ export default {
   },
   methods: {
     onSubmit() {
+      const $vm = this;
       const { selectedProducts, totalPrice } = this;
       axios.post('/post.php', { selectedProducts, totalPrice }).then(res => {
-        console.log('POSTED');
-        console.log(res);
+        $vm.formMessage = res.data;
       });
     },
     checkItem(item) {
       const { id, price, isChecked } = item;
       const index = this.selectedProducts.indexOf(id);
+
+      this.formMessage = '';
 
       item.isChecked = !isChecked;
 
@@ -88,8 +93,6 @@ export default {
     const $vm = this;
     axios.get('/').then(res => {
       $vm.products = res.data;
-      console.log('GETTED');
-      console.log(res);
     });
   },
 };

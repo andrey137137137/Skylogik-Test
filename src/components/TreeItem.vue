@@ -42,5 +42,8 @@ export default {
       }
     },
   },
+  created() {
+    this.$set(this.item, 'isChecked', false);
+  },
 };
 </script>
